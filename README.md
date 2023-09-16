@@ -1,4 +1,16 @@
-# api-calculator
+# API Calculator
+
+## What?
+
+Caclulate server side, for whatever reason...
+
+Adds, subtracts and divides
+
+Accepts abitrary lengths of operations and numbers, for example:
+
+`/api/calculate/add/10/15/subtract/5/divide/2` => `10`
+
+## Setup
 
 To install dependencies:
 
