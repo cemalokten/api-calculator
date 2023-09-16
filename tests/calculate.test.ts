@@ -1,4 +1,4 @@
-import { calculate } from "..";
+import { calculate, convert_to_operation } from "..";
 import { describe, test, expect } from "bun:test";
 
 describe("Caclculate function", () => {
@@ -34,5 +34,19 @@ describe("Caclculate function", () => {
   test("returns 25 when passed divide and [20,2,2]", () => {
     const res = calculate("divide", [1000, 3, 2, 2, 3]);
     expect(res).toEqual(27.777777777777775);
+  });
+});
+
+describe("Convert array to numbers and strings", () => {
+  const input = "add/2/2/subtract/2/add/2/sub/2".split("/");
+  test('returns array separated into chunks eg. [["add",50,10], ["subtract", 4]]', () => {
+    const res = [
+      ["add", 2, 2],
+      ["subtract", 2],
+      ["add", 2],
+      ["sub", 2],
+    ];
+    const output = convert_to_operation(input);
+    expect(output).toStrictEqual(res);
   });
 });
