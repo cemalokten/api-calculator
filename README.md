@@ -2,6 +2,8 @@
 
 This is a simple Express API that provides calculate endpoints for basic math operations.
 
+![API-Calculator](./public/api-calc.svg)
+
 ## What?
 
 A calculator that consumes url params and returns results server side, for whatever reason...
