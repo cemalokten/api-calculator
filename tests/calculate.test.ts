@@ -1,4 +1,4 @@
-import { calculate, convert_to_operation } from "..";
+import { calculate, divide, convert_to_operation, calculate_main } from "..";
 import { describe, test, expect } from "bun:test";
 
 describe("Caclculate function", () => {
@@ -27,6 +27,10 @@ describe("Caclculate function", () => {
     const res = calculate("divide", [16, 2]);
     expect(res).toEqual(8);
   });
+  test("returns 8 when passed divide and [16,2]", () => {
+    const res = divide([16, 2]);
+    expect(res).toEqual(8);
+  });
   test("returns 2.5 when passed divide and [20,2,4]", () => {
     const res = calculate("divide", [20, 2]);
     expect(res).toEqual(10);
@@ -35,18 +39,22 @@ describe("Caclculate function", () => {
     const res = calculate("divide", [1000, 3, 2, 2, 3]);
     expect(res).toEqual(27.777777777777775);
   });
+
+  // Multipy
+  test("returns 8 when passed divide and [2,4]", () => {
+    const res = calculate("multiply", [2, 4]);
+    expect(res).toEqual(8);
+  });
 });
 
 describe("Convert array to numbers and strings", () => {
-  const input = "add/2/2/subtract/2/add/2/sub/2".split("/");
-  test('returns array separated into chunks eg. [["add",50,10], ["subtract", 4]]', () => {
-    const res = [
-      ["add", 2, 2],
-      ["subtract", 2],
-      ["add", 2],
-      ["sub", 2],
-    ];
-    const output = convert_to_operation(input);
-    expect(output).toStrictEqual(res);
+  const input =
+    "add/20/2/divide/2/multiply/2/add/20/divide/2/subtract/1/add/50/suck/10/add/5".split(
+      "/",
+    );
+  test("returns total of input", () => {
+    const array = convert_to_operation(input);
+    const result = calculate_main(array);
+    expect(result).toEqual(75);
   });
 });

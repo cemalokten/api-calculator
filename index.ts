@@ -6,43 +6,108 @@
  * @returns Result of the operation.
  **/
 
-export function add(n: number[]): number | undefined {
-  let val = 0;
-  for (let i = 0, l = n.length; i < l; i++) {
-    val += n[i];
-  }
-  return val;
-}
-
-export function subtract(n: number[]): number {
-  let val = n[0];
-  for (let i = 1, l = n.length; i < l; i++) {
-    val -= n[i];
-  }
-
-  return val;
-}
-
-export function divide(n: number[], idx: number = 0, res: number = 0): number {
-  if (idx === n.length - 1) return res;
-  if (res === 0) {
-    res = n[idx] / n[idx + 1];
+// base case is idx <= array.length
+//
+export function add(n: number[], prev: number = 0, idx: number = 0): number {
+  if (idx >= n.length) return prev;
+  if (prev === 0) {
+    prev = n[idx];
   } else {
-    res = res / n[idx];
+    prev += n[idx];
   }
-  return divide(n, idx + 1, res);
+  return add(n, prev, idx + 1);
 }
 
-export function calculate(op: string, n: number[]): number | undefined {
+// export function add(n: number[], prev: number): number {
+//   let val = prev;
+//   for (let i = 0, l = n.length; i < l; i++) {
+//     val += n[i];
+//   }
+//   return val;
+// }
+
+export function subtract(n: number[], prev: number): number {
+  let val;
+  let idx;
+  if (prev) {
+    idx = 0;
+    val = prev;
+  } else {
+    idx = 1;
+    val = n[0];
+  }
+  for (idx; idx < n.length; idx++) {
+    val -= n[idx];
+  }
+  return val;
+}
+
+export function divide(n: number[], prev: number = 0, idx: number = 0): number {
+  if (idx >= n.length) return prev;
+  if (prev === 0) {
+    prev = n[idx];
+  } else {
+    prev = prev / n[idx];
+  }
+  return divide(n, prev, idx + 1);
+}
+
+// export function multiply(n: number[], prev: number): number {
+//   let val;
+//   let idx;
+//   if (prev) {
+//     idx = 0;
+//     val = prev;
+//   } else {
+//     idx = 1;
+//     val = n[0];
+//   }
+//   for (idx; idx < n.length; idx++) {
+//     val *= n[idx];
+//   }
+//   return val;
+// }
+
+export function multiply(n: number[], prev: number): number {
+  let val;
+  let idx;
+  if (prev) {
+    idx = 0;
+    val = prev;
+  } else {
+    idx = 1;
+    val = n[0];
+  }
+  for (idx; idx < n.length; idx++) {
+    val *= n[idx];
+  }
+  return val;
+}
+
+export function calculate(op: string, n: number[], prev: number = 0) {
   switch (op) {
     case "add":
-      return add(n);
+      return add(n, prev);
     case "subtract":
-      return subtract(n);
+      return subtract(n, prev);
     case "divide":
-      return divide(n);
+      return divide(n, prev);
+    case "multiply":
+      return multiply(n, prev);
+    default:
+      return prev;
   }
 }
+
+export function calculate_main(array: StrNumAr): number {
+  let prev = 0;
+  array.forEach((ar) => {
+    const [op, ...values] = ar;
+    prev = calculate(op, values, prev);
+  });
+  return prev;
+}
+
 /**
  * Array[String | Number] -> Array[String | Number]
  * consume array and output array of operations and values in nested array
@@ -82,12 +147,11 @@ const HOST = Bun.env.HOST || "localhost";
 
 type Req = Request<{ operator: string; "0": string }, {}, {}>;
 
-app.get("/calculate/:operator/*", (req: Req, res, next) => {
+app.get("/calculate/*", (req: Req, res, next) => {
   try {
-    const operator = req.params.operator;
     const values = req.params[0].split("/");
-    // TODO: Fix this part
-    const result = calculate(operator, array_of_values);
+    const values_and_operations = convert_to_operation(values);
+    const result = calculate_main(values_and_operations);
     res.status(200).json(result);
   } catch (error) {
     console.error(error);
