@@ -2,7 +2,7 @@
 
 This is a simple Express API that provides calculate endpoints for basic math operations.
 
-![API-Calculator](./public/api-calc.svg)
+[![API Calculator](https://asciinema.org/a/RycnEOE3pitcJ6erqsctJRIIL.svg)](https://asciinema.org/a/RycnEOE3pitcJ6erqsctJRIIL)
 
 ## What?
 
