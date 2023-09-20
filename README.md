@@ -21,7 +21,7 @@ Accepts arbitrary lengths of operations and numbers, for example:
 Performs a calculation based on the provided operator and values.
 
 - `:operator` - The arithmetic operator to use. Can be `add`, `subtract`, `multiply`, or `divide`.
-- `:values` - The numeric values to calculate, separated by `/`. For example: `/calculate/add/1/2/3` returns `6`
+- `:values` - The numeric values to calculate, separated by `/`.
 
 #### Example Request(s)
 
