@@ -1,4 +1,10 @@
-import { calculate, divide, convert_to_operation, calculate_main } from "..";
+import {
+  calculate,
+  divide,
+  convert_to_operation,
+  calculate_main,
+} from "../helpers";
+
 import { describe, test, expect } from "bun:test";
 
 describe("Caclculate function", () => {
